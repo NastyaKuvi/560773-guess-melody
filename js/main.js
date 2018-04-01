@@ -1,4 +1,3 @@
-
 const KeyMap = {
   LEFT_ARROW_KEY: `ArrowLeft`,
   RIGHT_ARROW_KEY: `ArrowRight`
@@ -12,16 +11,16 @@ const app = document.querySelector(`.app`);
 
 let currentIndex = 0;
 
-const screensMap = Array.prototype.concat(
+const screens = Array.prototype.concat(
     welcomeScreen,
     Array.prototype.slice.call(levelScreens),
     Array.prototype.slice.call(resultScreens));
 
 const setNextScreen = (i) => {
-  app.replaceChild(screensMap[i], document.querySelector(`.main`));
+  app.replaceChild(screens[i], document.querySelector(`.main`));
 };
 
-document.addEventListener(`keydown`, function (evt) {
+document.addEventListener(`keydown`, (evt) => {
   if (evt.altKey) {
     switch (evt.key) {
       case KeyMap.LEFT_ARROW_KEY:
@@ -30,7 +29,7 @@ document.addEventListener(`keydown`, function (evt) {
         }
         break;
       case KeyMap.RIGHT_ARROW_KEY:
-        if (currentIndex < screensMap.length - 1) {
+        if (currentIndex < screens.length - 1) {
           setNextScreen(++currentIndex);
         }
         break;
