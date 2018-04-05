@@ -87,27 +87,20 @@ const INNERHTML = `<section class="main main--level main--level-genre">
                       </section>`;
 
 const screenLevelGenre = getElement(INNERHTML);
-const answerCheckboxes = screenLevelGenre.querySelectorAll(`input[type=checkbox]`);
+const answerCheckboxes = [...screenLevelGenre.querySelectorAll(`input[type=checkbox]`)];
 const answerBtn = screenLevelGenre.querySelector(`.genre-answer-send`);
 
 const screens = [screenResultSuccess, screenResultAttemptsEnded, screenResultTimeOver];
 
 const isSomeAnswerChecked = () => {
-  let result = false;
-  answerCheckboxes.forEach((element) => {
-    if (element.checked) {
-      result = true;
-      return;
-    }
-  });
-  return result;
+  return answerCheckboxes.some((element) => element.checked);
 };
 
 const resetScreen = () => {
   answerCheckboxes.forEach((element) => {
     element.checked = false;
   });
-  answerBtn.setAttribute(`disabled`, true);
+  answerBtn.disabled = true;
 };
 
 answerBtn.addEventListener(`click`, (evt) => {
@@ -118,11 +111,7 @@ answerBtn.addEventListener(`click`, (evt) => {
 
 answerCheckboxes.forEach((checkbox) => {
   checkbox.addEventListener(`click`, () => {
-    if (checkbox.checked) {
-      answerBtn.removeAttribute(`disabled`);
-    } else if (!isSomeAnswerChecked()) {
-      answerBtn.setAttribute(`disabled`, true);
-    }
+    answerBtn.disabled = !(checkbox.checked || isSomeAnswerChecked());
   });
 });
 
