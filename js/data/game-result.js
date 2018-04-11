@@ -1,5 +1,15 @@
 import GameData from './game-data.js';
 
+const getCalculatedPoints = (answer) => {
+  if (answer.answered) {
+    if (answer.time < GameData.fastAnswerTime) {
+      return GameData.answerPoints.fast;
+    }
+    return GameData.answerPoints.normal;
+  }
+  return GameData.answerPoints.wrong;
+};
+
 const getPlayerScore = (playerAnswers, remainingLifes) => {
   let resultScore = GameData.failedScore;
 
@@ -19,15 +29,7 @@ const getPlayerScore = (playerAnswers, remainingLifes) => {
     playerAnswers.length === GameData.questionsQuantity) {
     resultScore = 0;
     playerAnswers.forEach((answer) => {
-      if (answer.answered) {
-        if (answer.time < GameData.fastAnswerTime) {
-          resultScore += GameData.answerPoints.fast;
-        } else {
-          resultScore += GameData.answerPoints.normal;
-        }
-      } else {
-        resultScore += GameData.answerPoints.wrong;
-      }
+      resultScore += getCalculatedPoints(answer);
     });
   }
 
@@ -35,8 +37,6 @@ const getPlayerScore = (playerAnswers, remainingLifes) => {
 };
 
 const displayPlayerScore = (scores, playerResult) => {
-  let resultMessage = ``;
-
   if (!Array.isArray(scores)) {
     throw new Error(`scores should be of type array`);
   }
@@ -46,19 +46,29 @@ const displayPlayerScore = (scores, playerResult) => {
   }
 
   if (playerResult.lifes === GameData.minLifes) {
-    resultMessage = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
-  } else if (playerResult.time > GameData.allTime) {
-    resultMessage = `Время вышло! Вы не успели отгадать все мелодии`;
-  } else {
-    scores.push(playerResult.points);
-    scores.sort((res1, res2) => res2 - res1);
-    let position = scores.indexOf(playerResult.points) + 1;
-    let count = scores.length;
-    let percent = Math.round((count - position) / count * 100);
-    resultMessage = `Вы заняли ${position} место из ${count} игроков. Это лучше, чем у ${percent}% игроков`;
+    return `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
   }
 
-  return resultMessage;
+  if (playerResult.time > GameData.allTime) {
+    return `Время вышло! Вы не успели отгадать все мелодии!`;
+  }
+
+  if (scores.length === 0) {
+    return `Вы первый кто выйграл в эту игру! Поздравляем!`;
+  }
+
+  scores.push(playerResult.points);
+  scores.sort((res1, res2) => res2 - res1);
+
+  const firstPosition = scores.indexOf(playerResult.points) + 1;
+  if (firstPosition === GameData.absoluteWinner) {
+    return `Вы заняли ${firstPosition} место! Вы сыграли лучше всех!`;
+  }
+
+  const lastPosition = scores.lastIndexOf(playerResult.points) + 1;
+  const count = scores.length;
+  const percent = Math.round((count - lastPosition) / count * 100);
+  return `Вы заняли ${firstPosition} место из ${count} игроков. Это лучше, чем у ${percent}% игроков`;
 };
 
 export {

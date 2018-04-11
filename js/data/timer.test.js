@@ -4,7 +4,7 @@ import initTimer from './timer.js';
 describe(`check work of timer`, () => {
   it(`should return message when time is over`, () => {
     const zeroTimer = initTimer(0);
-    assert.equal(zeroTimer.tick(), `Время вышло`);
+    assert.equal(zeroTimer.tick(), false);
 
     const timer = initTimer(30);
     assert.equal(timer.tick(), 29);

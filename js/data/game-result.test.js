@@ -37,24 +37,31 @@ describe(`check calculating of user score`, () => {
 });
 
 describe(`check diplaying of scores between players`, () => {
-  it(`should return correct mesage when user win the game`, () => {
-
-    let {statistic, playerResult, message} = GamesResult[0];
-    assert.equal(displayPlayerScore(statistic, playerResult), message);
-
-    ({statistic, playerResult, message} = GamesResult[3]);
-    assert.equal(displayPlayerScore(statistic, playerResult), message);
-  });
-
   it(`should return correct mesage when user lose the game(time ended)`, () => {
-    let {statistic, playerResult, message} = GamesResult[1];
+    const {statistic, playerResult, message} = GamesResult[0];
     assert.equal(displayPlayerScore(statistic, playerResult), message);
   });
 
   it(`should return correct mesage when user lose the game(lifes ended)`, () => {
-    let {statistic, playerResult, message} = GamesResult[2];
+    const {statistic, playerResult, message} = GamesResult[1];
     assert.equal(displayPlayerScore(statistic, playerResult), message);
   });
+
+  it(`should return correct mesage when user win the game`, () => {
+
+    let {statistic, playerResult, message} = GamesResult[2];
+    assert.equal(displayPlayerScore(statistic, playerResult), message);
+
+    ({statistic, playerResult, message} = GamesResult[3]);
+    assert.equal(displayPlayerScore(statistic, playerResult), message);
+
+    ({statistic, playerResult, message} = GamesResult[4]);
+    assert.equal(displayPlayerScore(statistic, playerResult), message);
+
+    ({statistic, playerResult, message} = GamesResult[5]);
+    assert.equal(displayPlayerScore(statistic, playerResult), message);
+  });
+
 
   it(`should not allow use wrong types of input fields`, () => {
     assert.throws(() => displayPlayerScore({}, 3),

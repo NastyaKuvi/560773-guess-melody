@@ -15,12 +15,10 @@ const initTimer = (newTime) => {
 
 const timer = {
   tick() {
-    if (time > 0) {
-      time--;
-      return time;
-    } else {
-      return `Время вышло`;
+    if (time === 0) {
+      return false;
     }
+    return --time;
   },
 };
 

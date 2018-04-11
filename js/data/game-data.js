@@ -10,6 +10,7 @@ const GameData = {
   fastAnswerTime: 30,
   allTime: 300,
   failedScore: -1,
+  absoluteWinner: 1
 };
 
 export default GameData;

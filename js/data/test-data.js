@@ -129,19 +129,10 @@ const GamesResult = [
     statistic: [4, 5, 8, 11],
     playerResult: {
       points: 10,
-      time: 280,
-      lifes: 1
-    },
-    message: `Вы заняли 2 место из 5 игроков. Это лучше, чем у 60% игроков`
-  },
-  {
-    statistic: [4, 5, 8, 11],
-    playerResult: {
-      points: 10,
       time: 310,
       lifes: 3
     },
-    message: `Время вышло! Вы не успели отгадать все мелодии`
+    message: `Время вышло! Вы не успели отгадать все мелодии!`
   },
   {
     statistic: [4, 5, 8, 11],
@@ -153,14 +144,41 @@ const GamesResult = [
     message: `У вас закончились все попытки. Ничего, повезёт в следующий раз!`
   },
   {
+    statistic: [4, 5, 8, 11],
+    playerResult: {
+      points: 10,
+      time: 280,
+      lifes: 1
+    },
+    message: `Вы заняли 2 место из 5 игроков. Это лучше, чем у 60% игроков`
+  },
+  {
     statistic: [4, 5, 8, 9, 10],
     playerResult: {
       points: 11,
       time: 280,
       lifes: 1
     },
-    message: `Вы заняли 1 место из 6 игроков. Это лучше, чем у 83% игроков`
-  }
+    message: `Вы заняли 1 место! Вы сыграли лучше всех!`
+  },
+  {
+    statistic: [],
+    playerResult: {
+      points: 11,
+      time: 280,
+      lifes: 1
+    },
+    message: `Вы первый кто выйграл в эту игру! Поздравляем!`
+  },
+  {
+    statistic: [4, 5, 8, 9, 10],
+    playerResult: {
+      points: 9,
+      time: 280,
+      lifes: 1
+    },
+    message: `Вы заняли 2 место из 6 игроков. Это лучше, чем у 50% игроков`
+  },
 ];
 
 export {
