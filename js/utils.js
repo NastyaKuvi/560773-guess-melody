@@ -1,6 +1,3 @@
-
-const app = document.querySelector(`.app`);
-
 // const KeyMap = {
 //   LEFT_ARROW_KEY: `ArrowLeft`,
 //   RIGHT_ARROW_KEY: `ArrowRight`
@@ -12,7 +9,8 @@ const getElement = (templateStr) => {
   return template.content.firstChild;
 };
 
-const setNextScreen = (screen) => {
+const setScreen = (screen) => {
+  const app = document.querySelector(`.app`);
   app.replaceChild(screen, document.querySelector(`.main`));
 };
 
@@ -25,8 +23,35 @@ const getRandomItem = (array) => {
   return array[index];
 };
 
+const replaceArrayItems = (array, index1, index2) => {
+  let item = array[index1];
+  array[index1] = array[index2];
+  array[index2] = item;
+};
+
+const shuffleArray = (array) => {
+  const resArray = [...array];
+  for (let i = 0; i < resArray.length; i++) {
+    const rand = getRandomNumber(i, resArray.length - 1);
+    replaceArrayItems(resArray, rand, i);
+  }
+  return resArray;
+};
+
+const getCorrectNounForm = (noun, number) => {
+  // TODO: implement this
+  return `${number} ${noun}`;
+};
+
+const getMinutes = (seconds) => {
+  return Math.floor(seconds / 60);
+};
+
 export {
   getElement,
-  setNextScreen,
-  getRandomItem
+  setScreen,
+  getRandomItem,
+  getCorrectNounForm,
+  getMinutes,
+  shuffleArray
 };

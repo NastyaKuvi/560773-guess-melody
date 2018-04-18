@@ -13,6 +13,10 @@ const initTimer = (newTime) => {
   return timer;
 };
 
+const pad = (digit) => {
+  return digit <= 9 ? `0` + digit : digit;
+};
+
 const timer = {
   tick() {
     if (time === 0) {
@@ -20,6 +24,15 @@ const timer = {
     }
     return --time;
   },
+  getMinutes() {
+    return pad(Math.floor(time / 60));
+  },
+  getSeconds() {
+    return pad(time % 60);
+  },
+  getCurrentTime() {
+    return `${this.getMinutes()}:${this.getSeconds()}`;
+  }
 };
 
 export default initTimer;
