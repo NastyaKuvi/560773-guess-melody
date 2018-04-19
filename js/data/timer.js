@@ -1,3 +1,5 @@
+import { getMinutes, getSeconds } from "../utils";
+
 let time = 0;
 
 const initTimer = (newTime) => {
@@ -13,10 +15,6 @@ const initTimer = (newTime) => {
   return timer;
 };
 
-const pad = (digit) => {
-  return digit <= 9 ? `0` + digit : digit;
-};
-
 const timer = {
   tick() {
     if (time === 0) {
@@ -25,10 +23,10 @@ const timer = {
     return --time;
   },
   getMinutes() {
-    return pad(Math.floor(time / 60));
+    return getMinutes(time);
   },
   getSeconds() {
-    return pad(time % 60);
+    return getSeconds(time);
   },
   getCurrentTime() {
     return `${this.getMinutes()}:${this.getSeconds()}`;

@@ -11,18 +11,16 @@ let userData = [];
 
 const startGame = () => {
   currentLevel = 0;
-  const level = Levels[currentLevel];
-  if (level.type === GAME_TYPE.ARTIST) {
-    setNextLevel(level.info, screenLevelArtist);
-    // setScreen(screenLevelArtist(level.info));
-  } else if (level.type === GAME_TYPE.GENRE) {
-    setNextLevel(level.info, screenLevelGenre);
-    // setScreen(screenLevelGenre(level.info));
-  }
+  setNextLevel();
 };
 
-const setNextLevel = (info, cb) => {
-  setScreen(cb(info));
+const setNextLevel = () => {
+  const level = Levels[currentLevel];
+  if (level.type === GAME_TYPE.ARTIST) {
+    setScreen(screenLevelArtist(level.info));
+  } else if (level.type === GAME_TYPE.GENRE) {
+    setScreen(screenLevelGenre(level.info));
+  }
 };
 
 const checkAnswer = (answer) => {
@@ -42,12 +40,7 @@ const checkAnswer = (answer) => {
     }
   }
 
-  const level = Levels[currentLevel];
-  if (level.type === GAME_TYPE.ARTIST) {
-    setNextLevel(level.info, screenLevelArtist);
-  } else if (level.type === GAME_TYPE.GENRE) {
-    setNextLevel(level.info, screenLevelGenre);
-  }
+  setNextLevel();
 };
 
 const prepareResultData = () => {

@@ -1,9 +1,9 @@
 import playerTemplate from "./player-wrapper";
 
-export default (answer) => {
+export default (answer, index) => {
   return `<div class="genre-answer">
             ${playerTemplate(answer.audio)}
-            <input type="checkbox" name="answer" value="${answer.index}" id="a-${answer.index}">
-            <label class="genre-answer-check" for="a-${answer.index}"></label>
+            <input type="checkbox" name="answer" value="${index}" id="a-${index}">
+            <label class="genre-answer-check" for="a-${index}"></label>
           </div>`;
 };

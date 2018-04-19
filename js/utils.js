@@ -24,9 +24,7 @@ const getRandomItem = (array) => {
 };
 
 const replaceArrayItems = (array, index1, index2) => {
-  let item = array[index1];
-  array[index1] = array[index2];
-  array[index2] = item;
+  [array[index1], array[index2]] = [array[index2], array[index1]];
 };
 
 const shuffleArray = (array) => {
@@ -43,8 +41,16 @@ const getCorrectNounForm = (noun, number) => {
   return `${number} ${noun}`;
 };
 
-const getMinutes = (seconds) => {
-  return Math.floor(seconds / 60);
+const pad = (digit) => {
+  return digit <= 9 ? `0` + digit : digit;
+};
+
+const getSeconds = (time) => {
+  return pad(time % 60);
+};
+
+const getMinutes = (time) => {
+  return pad(Math.floor(time / 60));
 };
 
 export {
@@ -52,6 +58,7 @@ export {
   setScreen,
   getRandomItem,
   getCorrectNounForm,
+  getSeconds,
   getMinutes,
   shuffleArray
 };

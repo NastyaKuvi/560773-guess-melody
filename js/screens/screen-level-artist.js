@@ -18,8 +18,8 @@ export default (levelArtistData) => {
       <h2 class="title main-title">${levelArtistData.title}</h2>
       ${getPlayerTemplate(levelArtistData.audio)}
       <form class="main-list">
-      ${[...levelArtistData.answers.entries()].map(
-      (item) => getArtistAnswerTemplate(Object.assign({}, {index: item[0] + 1}, item[1]))).join(``)}
+      ${levelArtistData.answers.map((item, index) =>
+        getArtistAnswerTemplate(item, index + 1)).join(``)}
       </form>
     </div>
   </section>`;

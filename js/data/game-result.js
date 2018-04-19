@@ -1,20 +1,15 @@
 import {GameData} from './game-data.js';
 
-const getCalculatedPoints = (answer) => {
+const calculatePoints = (answer, result) => {
   if (answer.answered) {
     if (answer.time < GameData.fastAnswerTime) {
-      return GameData.answerPoints.fast;
+      result.fast += GameData.answerPoints.fast;
+    } else {
+      result.normal += GameData.answerPoints.normal;
     }
-    return GameData.answerPoints.normal;
+  } else {
+    result.wrong += GameData.answerPoints.wrong;
   }
-  return GameData.answerPoints.wrong;
-};
-
-const getFastPoints = (answer) => {
-  if (answer.answered || answer.time < GameData.fastAnswerTime) {
-    return GameData.answerPoints.fast;
-  }
-  return 0;
 };
 
 const getPlayerScore = (playerAnswers, remainingLifes) => {
@@ -33,17 +28,23 @@ const getPlayerScore = (playerAnswers, remainingLifes) => {
     throw new Error(`Remaining lifes should be a value from 0 to 3`);
   }
 
+  let result = {
+    normal: 0,
+    fast: 0,
+    wrong: 0,
+    getTotal() {
+      return this.normal + this.fast + this.wrong;
+    }
+  };
+
   if (remainingLifes !== GameData.minLifes &&
     playerAnswers.length === GameData.questionsQuantity) {
-    common = 0;
-    fast = 0;
     playerAnswers.forEach((answer) => {
-      common += getCalculatedPoints(answer);
-      fast += getFastPoints(answer);
+      calculatePoints(answer, result);
     });
   }
 
-  return {common, fast};
+  return {common: result.getTotal(), fast: result.fast};
 };
 
 const displayPlayerScore = (scores, playerResult) => {

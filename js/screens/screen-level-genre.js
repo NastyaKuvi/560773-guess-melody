@@ -15,8 +15,8 @@ export default (levelGenreData) => {
     <div class="main-wrap">
       <h2 class="title">${levelGenreData.title}</h2>
       <form class="genre">
-      ${[...levelGenreData.answers.entries()].map(
-      (item) => getGenreAnswerTemplate(Object.assign({}, {index: item[0] + 1}, item[1]))).join(``)}
+      ${levelGenreData.answers.map((item, index) =>
+        getGenreAnswerTemplate(item, index + 1)).join(``)}
         <button class="genre-answer-send" type="submit" disabled>Ответить</button>
       </form>
     </div>
@@ -41,8 +41,8 @@ export default (levelGenreData) => {
     evt.preventDefault();
     const answered = answerCheckboxes
         .filter((item) => item.checked)
-        .map((item) => levelGenreData.answers[item.value.trim() - 1].right)
-        .every((a) => a);
+        .map((item) => levelGenreData.answers[item.value.trim() - 1])
+        .every((answer) => answer.right);
     checkAnswer({answered, time: 30});
     resetScreen();
   });
