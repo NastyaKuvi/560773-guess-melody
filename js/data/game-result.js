@@ -1,17 +1,20 @@
-import GameData from './game-data.js';
+import {GameData} from './game-data.js';
 
-const getCalculatedPoints = (answer) => {
+const calculatePoints = (answer, result) => {
   if (answer.answered) {
     if (answer.time < GameData.fastAnswerTime) {
-      return GameData.answerPoints.fast;
+      result.fast += GameData.answerPoints.fast;
+    } else {
+      result.normal += GameData.answerPoints.normal;
     }
-    return GameData.answerPoints.normal;
+  } else {
+    result.wrong += GameData.answerPoints.wrong;
   }
-  return GameData.answerPoints.wrong;
 };
 
 const getPlayerScore = (playerAnswers, remainingLifes) => {
-  let resultScore = GameData.failedScore;
+  let common = GameData.failedScore;
+  let fast = GameData.failedScore;
 
   if (!Array.isArray(playerAnswers)) {
     throw new Error(`Answers should be of type array`);
@@ -25,15 +28,23 @@ const getPlayerScore = (playerAnswers, remainingLifes) => {
     throw new Error(`Remaining lifes should be a value from 0 to 3`);
   }
 
+  let result = {
+    normal: 0,
+    fast: 0,
+    wrong: 0,
+    getTotal() {
+      return this.normal + this.fast + this.wrong;
+    }
+  };
+
   if (remainingLifes !== GameData.minLifes &&
     playerAnswers.length === GameData.questionsQuantity) {
-    resultScore = 0;
     playerAnswers.forEach((answer) => {
-      resultScore += getCalculatedPoints(answer);
+      calculatePoints(answer, result);
     });
   }
 
-  return resultScore;
+  return {common: result.getTotal(), fast: result.fast};
 };
 
 const displayPlayerScore = (scores, playerResult) => {
@@ -45,13 +56,13 @@ const displayPlayerScore = (scores, playerResult) => {
     throw new Error(`player result should be of type object`);
   }
 
-  if (playerResult.lifes === GameData.minLifes) {
-    return `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
-  }
+  // if (playerResult.lifes === GameData.minLifes) {
+  //   return `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+  // }
 
-  if (playerResult.time > GameData.allTime) {
-    return `Время вышло! Вы не успели отгадать все мелодии!`;
-  }
+  // if (playerResult.time > GameData.allTime) {
+  //   return `Время вышло! Вы не успели отгадать все мелодии!`;
+  // }
 
   if (scores.length === 0) {
     return `Вы первый кто выйграл в эту игру! Поздравляем!`;

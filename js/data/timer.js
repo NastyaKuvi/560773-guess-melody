@@ -1,3 +1,5 @@
+import { getMinutes, getSeconds } from "../utils";
+
 let time = 0;
 
 const initTimer = (newTime) => {
@@ -20,6 +22,15 @@ const timer = {
     }
     return --time;
   },
+  getMinutes() {
+    return getMinutes(time);
+  },
+  getSeconds() {
+    return getSeconds(time);
+  },
+  getCurrentTime() {
+    return `${this.getMinutes()}:${this.getSeconds()}`;
+  }
 };
 
 export default initTimer;
