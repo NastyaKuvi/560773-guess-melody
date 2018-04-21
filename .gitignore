@@ -12,3 +12,6 @@ node_modules/
 
 # Папка с собранными файлами проекта
 build/
+
+# мои команды
+git-update.cmd
