@@ -1,9 +1,15 @@
-import getScreenWelcome from './screens/screen-welcome.js';
-import {setScreen, getMinutes} from './utils.js';
+import {getMinutes} from './utils.js';
 import {GameData} from './data/game-data.js';
+import WelcomeView from './views/welcome-view.js';
+import Game from './game-service.js';
 
 const welcome = {
   gameTime: getMinutes(GameData.allTime),
   maxMistakesCount: GameData.maxLifes
 };
-setScreen(getScreenWelcome(welcome));
+
+const game = new Game();
+
+const welcomeView = new WelcomeView(welcome);
+welcomeView.onStartGameBtnClick = () => game.startGame();
+game.setScreen(welcomeView.element);

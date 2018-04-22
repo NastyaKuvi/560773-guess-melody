@@ -3,15 +3,10 @@
 //   RIGHT_ARROW_KEY: `ArrowRight`
 // };
 
-const getElement = (templateStr) => {
-  let template = document.createElement(`template`);
-  template.innerHTML = templateStr;
-  return template.content.firstChild;
-};
-
-const setScreen = (screen) => {
-  const app = document.querySelector(`.app`);
-  app.replaceChild(screen, document.querySelector(`.main`));
+const createElement = (tag = `div`, templateStr = ``) => {
+  const elem = document.createElement(tag);
+  elem.innerHTML = templateStr.trim();
+  return elem;
 };
 
 const getRandomNumber = (min, max) => {
@@ -54,8 +49,7 @@ const getMinutes = (time) => {
 };
 
 export {
-  getElement,
-  setScreen,
+  createElement,
   getRandomItem,
   getCorrectNounForm,
   getSeconds,

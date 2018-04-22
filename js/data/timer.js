@@ -1,4 +1,4 @@
-import { getMinutes, getSeconds } from "../utils";
+import {getMinutes, getSeconds} from "../utils";
 
 let time = 0;
 

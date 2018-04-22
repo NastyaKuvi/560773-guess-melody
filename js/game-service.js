@@ -1,17 +1,17 @@
-import {Levels, GAME_TYPE, GameData, FailedData, InitialGameState} from "./game-data";
-import {getPlayerScore, displayPlayerScore} from "./game-result";
-import LevelArtistView from "../views/level-artist-view";
-import LevelGenreView from "../views/level-genre-view";
-import FailedGameView from "../views/failed-game-view";
-import SuccessGameView from "../views/success-game-view";
-import {createElement} from "../utils";
-import HeaderView from "../views/header-view";
-import initTimer from "./timer";
+import {Levels, GAME_TYPE, GameData, FailedData, InitialGameState} from "./data/game-data.js";
+import {getPlayerScore, displayPlayerScore} from "./data/game-result.js";
+import LevelArtistView from "./views/level-artist-view.js";
+import LevelGenreView from "./views/level-genre-view.js";
+import FailedGameView from "./views/failed-game-view.js";
+import SuccessGameView from "./views/success-game-view.js";
+import {createElement} from "./utils.js";
+import HeaderView from "./views/header-view.js";
+import initTimer from "./data/timer.js";
 
 export default class Game {
 
   constructor() {
-    this._currentState = InitialGameState;
+    this._currentState = Object.assign({}, InitialGameState);
     this.userData = [];
     this._levelContainerElement = createElement(`section`);
     this._levelContainerElement.classList.add(...`main main--level`.split(` `));
@@ -32,7 +32,7 @@ export default class Game {
 
     const headerData = {
       timer: initTimer(GameData.allTime),
-      mistakes: GameData.mistakes
+      mistakes: this._currentState.mistakes
     };
     const headerView = new HeaderView(headerData);
     this._levelContainerElement.appendChild(headerView.element);
@@ -54,16 +54,16 @@ export default class Game {
       second: `58`,
       score: score.common,
       fastQ: score.fast,
-      mistakes: 2,
+      mistakes: this._currentState.mistakes,
       toDisplay: displayPlayerScore([2, 4, 6, 8, 10, 12],
-          {lifes: GameData.maxLifes - GameData.mistakes,
+          {lifes: GameData.maxLifes - this._currentState.mistakes,
             points: score.common})
     };
     return result;
   }
 
   startGame() {
-    this._currentState.level = 0;
+    this._currentState = Object.assign({}, InitialGameState);
     this._setNextLevel();
   }
 
@@ -84,7 +84,7 @@ export default class Game {
         return;
       }
     } else {
-      if (++GameData.mistakes === GameData.maxLifes) {
+      if (++this._currentState.mistakes === GameData.maxLifes) {
         this._setResultScreen(new FailedGameView(FailedData.attemptsEnded));
         return;
       }
