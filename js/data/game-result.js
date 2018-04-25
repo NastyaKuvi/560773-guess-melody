@@ -13,8 +13,6 @@ const calculatePoints = (answer, result) => {
 };
 
 const getPlayerScore = (playerAnswers, remainingLifes) => {
-  let common = GameData.failedScore;
-  let fast = GameData.failedScore;
 
   if (!Array.isArray(playerAnswers)) {
     throw new Error(`Answers should be of type array`);
@@ -33,7 +31,8 @@ const getPlayerScore = (playerAnswers, remainingLifes) => {
     fast: 0,
     wrong: 0,
     getTotal() {
-      return this.normal + this.fast + this.wrong;
+      const total = this.normal + this.fast + this.wrong;
+      return total ? total : GameData.failedScore;
     }
   };
 
@@ -55,14 +54,6 @@ const displayPlayerScore = (scores, playerResult) => {
   if (typeof playerResult !== `object`) {
     throw new Error(`player result should be of type object`);
   }
-
-  // if (playerResult.lifes === GameData.minLifes) {
-  //   return `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
-  // }
-
-  // if (playerResult.time > GameData.allTime) {
-  //   return `Время вышло! Вы не успели отгадать все мелодии!`;
-  // }
 
   if (scores.length === 0) {
     return `Вы первый кто выйграл в эту игру! Поздравляем!`;

@@ -1,4 +1,4 @@
-import {getLevelArtist, getLevelGenre} from "./music-data";
+import {getLevelArtist, getLevelGenre} from "./music-data.js";
 
 const GAME_TYPE = {
   ARTIST: `artist`,
@@ -9,16 +9,21 @@ const GameData = {
   questionsQuantity: 10,
   minLifes: 0,
   maxLifes: 3,
-  mistakes: 0,
   answerPoints: {
     normal: 1,
     fast: 2,
     wrong: -2,
   },
   fastAnswerTime: 30,
-  allTime: 300,
   failedScore: -1,
+  allTime: 300,
   absoluteWinner: 1
+};
+
+const InitialGameState = {
+  level: 0,
+  mistakes: 0,
+  time: GameData.allTime
 };
 
 const FailedData = {
@@ -75,6 +80,7 @@ const Levels = [
 
 export {
   GAME_TYPE,
+  InitialGameState,
   GameData,
   FailedData,
   Levels
