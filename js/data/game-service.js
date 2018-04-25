@@ -4,7 +4,6 @@ import LevelArtistView from "../views/level-artist-view";
 import LevelGenreView from "../views/level-genre-view";
 import FailedGameView from "../views/failed-game-view";
 import SuccessGameView from "../views/success-game-view";
-import {createElement} from "../utils";
 import HeaderView from "../views/header-view";
 import initTimer from "./timer";
 
@@ -13,33 +12,29 @@ export default class Game {
   constructor() {
     this._currentState = InitialGameState;
     this.userData = [];
-    this._levelContainerElement = createElement(`section`);
-    this._levelContainerElement.classList.add(...`main main--level`.split(` `));
+
   }
 
   _setNextLevel() {
     const level = Levels[this._currentState.level];
-    if (level.type === GAME_TYPE.ARTIST) {
-      this._setLevelScreen(new LevelArtistView(level.info), level.class);
-    } else if (level.type === GAME_TYPE.GENRE) {
-      this._setLevelScreen(new LevelGenreView(level.info), level.class);
-    }
-  }
-
-  _setLevelScreen(levelView, levelClass) {
-    this._levelContainerElement.innerHTML = ``;
-    this._levelContainerElement.classList.add(levelClass);
 
     const headerData = {
       timer: initTimer(GameData.allTime),
       mistakes: GameData.mistakes
     };
     const headerView = new HeaderView(headerData);
-    this._levelContainerElement.appendChild(headerView.element);
 
+
+    if (level.type === GAME_TYPE.ARTIST) {
+      this._setLevelScreen(new LevelArtistView(level.info, headerView.element));
+    } else if (level.type === GAME_TYPE.GENRE) {
+      this._setLevelScreen(new LevelGenreView(level.info, headerView.element));
+    }
+  }
+
+  _setLevelScreen(levelView) {
     levelView.onAnswerBtnClick = (answer) => this.checkAnswer(answer);
-    this._levelContainerElement.appendChild(levelView.element);
-    this.setScreen(this._levelContainerElement);
+    this.setScreen(levelView.element);
   }
 
   _setResultScreen(view) {

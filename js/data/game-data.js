@@ -42,47 +42,38 @@ const FailedData = {
 const Levels = [
   {
     type: GAME_TYPE.ARTIST,
-    class: `main--level-artist`,
     info: getLevelArtist(),
   },
   {
     type: GAME_TYPE.GENRE,
-    class: `main--level-genre`,
     info: getLevelGenre(),
   },
   {
     type: GAME_TYPE.ARTIST,
-    class: `main--level-artist`,
     info: getLevelArtist(),
   },
   {
     type: GAME_TYPE.GENRE,
-    class: `main--level-genre`,
     info: getLevelGenre(),
   },
   {
     type: GAME_TYPE.ARTIST,
-    class: `main--level-artist`,
     info: getLevelArtist(),
   },
   {
     type: GAME_TYPE.GENRE,
-    class: `main--level-genre`,
     info: getLevelGenre(),
   },
   {
     type: GAME_TYPE.ARTIST,
-    class: `main--level-artist`,
     info: getLevelArtist(),
   },
   {
     type: GAME_TYPE.GENRE,
-    class: `main--level-genre`,
     info: getLevelGenre(),
   },
   {
     type: GAME_TYPE.ARTIST,
-    class: `main--level-artist`,
     info: getLevelArtist(),
   }
 ];

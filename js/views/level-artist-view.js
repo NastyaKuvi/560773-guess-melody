@@ -1,12 +1,17 @@
 import AbstractView from "./abstract-view";
 import getPlayerTemplate from '../templates/player-wrapper.js';
 import getArtistAnswerTemplate from '../templates/artist-answer.js';
+import {createElement} from "../utils";
 
 export default class LevelArtistView extends AbstractView {
 
-  constructor(levelData) {
+  constructor(levelData, header) {
     super();
     this._data = levelData;
+    this._headerView = header;
+    this._levelContainerElement = createElement(`section`);
+    this._levelContainerElement.classList.add(...[`main`, `main--level`, `main--level-artist`]);
+    this._levelContainerElement.appendChild(this._headerView);
   }
 
   get template() {
@@ -17,6 +22,11 @@ export default class LevelArtistView extends AbstractView {
                 ${this._data.answers.map((item, index) => getArtistAnswerTemplate(item, index + 1)).join(``)}
                 </form>
               </div>`;
+  }
+
+  get element() {
+    this._levelContainerElement.appendChild(super.element);
+    return this._levelContainerElement;
   }
 
   bind() {

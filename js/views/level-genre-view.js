@@ -1,11 +1,16 @@
 import getGenreAnswerTemplate from '../templates/genre-answer.js';
 import AbstractView from "./abstract-view";
+import {createElement} from '../utils.js';
 
 export default class LevelGenreView extends AbstractView {
 
-  constructor(levelData) {
+  constructor(levelData, header) {
     super();
     this._data = levelData;
+    this._headerView = header;
+    this._levelContainerElement = createElement(`section`);
+    this._levelContainerElement.classList.add(...[`main`, `main--level`, `main--level-genre`]);
+    this._levelContainerElement.appendChild(this._headerView);
   }
 
   get template() {
@@ -16,6 +21,11 @@ export default class LevelGenreView extends AbstractView {
                   <button class="genre-answer-send" type="submit" disabled>Ответить</button>
                 </form>
               </div>`;
+  }
+
+  get element() {
+    this._levelContainerElement.appendChild(super.element);
+    return this._levelContainerElement;
   }
 
   _isAnswered(checkboxes) {
