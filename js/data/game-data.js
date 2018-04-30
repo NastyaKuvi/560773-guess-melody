@@ -1,6 +1,6 @@
 import {getLevelArtist, getLevelGenre} from "./music-data.js";
 
-const GAME_TYPE = {
+const LevelType = {
   ARTIST: `artist`,
   GENRE: `genre`
 };
@@ -21,7 +21,7 @@ const GameData = {
 };
 
 const InitialGameState = {
-  level: 0,
+  level: 1,
   mistakes: 0,
   time: GameData.allTime
 };
@@ -41,45 +41,49 @@ const FailedData = {
 
 const Levels = [
   {
-    type: GAME_TYPE.ARTIST,
+    type: LevelType.ARTIST,
     info: getLevelArtist(),
   },
   {
-    type: GAME_TYPE.GENRE,
+    type: LevelType.GENRE,
     info: getLevelGenre(),
   },
   {
-    type: GAME_TYPE.ARTIST,
+    type: LevelType.ARTIST,
     info: getLevelArtist(),
   },
   {
-    type: GAME_TYPE.GENRE,
+    type: LevelType.GENRE,
     info: getLevelGenre(),
   },
   {
-    type: GAME_TYPE.ARTIST,
+    type: LevelType.ARTIST,
     info: getLevelArtist(),
   },
   {
-    type: GAME_TYPE.GENRE,
+    type: LevelType.GENRE,
     info: getLevelGenre(),
   },
   {
-    type: GAME_TYPE.ARTIST,
+    type: LevelType.ARTIST,
     info: getLevelArtist(),
   },
   {
-    type: GAME_TYPE.GENRE,
+    type: LevelType.GENRE,
     info: getLevelGenre(),
   },
   {
-    type: GAME_TYPE.ARTIST,
+    type: LevelType.ARTIST,
     info: getLevelArtist(),
+  },
+  {
+    type: LevelType.GENRE,
+    info: getLevelGenre(),
   }
 ];
 
 export {
-  GAME_TYPE,
+  LevelType,
   InitialGameState,
   GameData,
   FailedData,

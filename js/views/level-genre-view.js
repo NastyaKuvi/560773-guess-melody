@@ -1,16 +1,11 @@
 import getGenreAnswerTemplate from '../templates/genre-answer.js';
-import AbstractView from "./abstract-view";
-import {createElement} from '../utils.js';
+import LevelView from './level-view.js';
 
-export default class LevelGenreView extends AbstractView {
+export default class LevelGenreView extends LevelView {
 
-  constructor(levelData, header) {
-    super();
+  constructor(levelData, headerData) {
+    super(headerData, `main--level-genre`);
     this._data = levelData;
-    this._headerView = header;
-    this._levelContainerElement = createElement(`section`);
-    this._levelContainerElement.classList.add(...[`main`, `main--level`, `main--level-genre`]);
-    this._levelContainerElement.appendChild(this._headerView);
   }
 
   get template() {
@@ -21,11 +16,6 @@ export default class LevelGenreView extends AbstractView {
                   <button class="genre-answer-send" type="submit" disabled>Ответить</button>
                 </form>
               </div>`;
-  }
-
-  get element() {
-    this._levelContainerElement.appendChild(super.element);
-    return this._levelContainerElement;
   }
 
   _isAnswered(checkboxes) {
@@ -56,8 +46,7 @@ export default class LevelGenreView extends AbstractView {
     const answerBtn = this.element.querySelector(`.genre-answer-send`);
     answerBtn.addEventListener(`click`, (evt) => {
       evt.preventDefault();
-      const answered = this._isAnswered(answerCheckboxes);
-      this.onAnswerBtnClick({answered, time: 30});
+      this.onAnswerBtnClick(this._isAnswered(answerCheckboxes));
       this.resetScreen(answerCheckboxes, answerBtn);
     });
 

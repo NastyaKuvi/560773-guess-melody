@@ -1,7 +1,6 @@
-// const KeyMap = {
-//   LEFT_ARROW_KEY: `ArrowLeft`,
-//   RIGHT_ARROW_KEY: `ArrowRight`
-// };
+const setScreen = (parent, viewElement) => {
+  parent.replaceChild(viewElement, document.querySelector(`.main`));
+};
 
 const createElement = (tag = `div`, templateStr = ``) => {
   const elem = document.createElement(tag);
@@ -49,6 +48,7 @@ const getMinutes = (time) => {
 };
 
 export {
+  setScreen,
   createElement,
   getRandomItem,
   getCorrectNounForm,

@@ -1,17 +1,12 @@
-import AbstractView from "./abstract-view";
 import getPlayerTemplate from '../templates/player-wrapper.js';
 import getArtistAnswerTemplate from '../templates/artist-answer.js';
-import {createElement} from "../utils";
+import LevelView from "./level-view";
 
-export default class LevelArtistView extends AbstractView {
+export default class LevelArtistView extends LevelView {
 
-  constructor(levelData, header) {
-    super();
+  constructor(levelData, headerData) {
+    super(headerData, `main--level-artist`);
     this._data = levelData;
-    this._headerView = header;
-    this._levelContainerElement = createElement(`section`);
-    this._levelContainerElement.classList.add(...[`main`, `main--level`, `main--level-artist`]);
-    this._levelContainerElement.appendChild(this._headerView);
   }
 
   get template() {
@@ -24,10 +19,6 @@ export default class LevelArtistView extends AbstractView {
               </div>`;
   }
 
-  get element() {
-    this._levelContainerElement.appendChild(super.element);
-    return this._levelContainerElement;
-  }
 
   bind() {
     const answerBtns = this.element.querySelectorAll(`.main-answer-r`);
@@ -36,7 +27,7 @@ export default class LevelArtistView extends AbstractView {
       btn.addEventListener(`click`, (evt) => {
         evt.preventDefault();
         const userAnswer = +btn.value.trim();
-        this.onAnswerBtnClick({answered: this._data.right === userAnswer, time: 30});
+        this.onAnswerBtnClick(this._data.right === userAnswer);
       });
     });
   }

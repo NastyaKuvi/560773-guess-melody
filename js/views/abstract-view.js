@@ -26,7 +26,7 @@ export default class AbstractView {
    * @return {Element} created element
    */
   render() {
-    return createElement(`template`, this.template).content;
+    return createElement(`template`, this.template).content.firstChild;
   }
 
   /**
