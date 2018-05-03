@@ -52,7 +52,7 @@ const getLevelArtist = () => {
   return {
     title: `Кто исполняет эту песню?`,
     audio: `<audio src="${itemToAnswer.src}" autoplay>${itemToAnswer.artist} - ${itemToAnswer.name}</audio>`,
-    right: shuffledArray.indexOf(itemToAnswer) + 1,
+    right: /* shuffledArray.indexOf(itemToAnswer) +*/ 1,
     answers: shuffledArray
   };
 };
