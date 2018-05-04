@@ -1,4 +1,4 @@
-import {Levels, LevelType, GameData} from "../data/game-data.js";
+import {LevelType, GameData} from "../data/game-data.js";
 import LevelArtistView from "../views/level-artist-view.js";
 import LevelGenreView from "../views/level-genre-view.js";
 import Timer from "../data/timer.js";
@@ -8,7 +8,7 @@ export default class GameService {
 
   constructor(model) {
     this._userData = [];
-    this._gameModel = model;
+    this._model = model;
     this._app = document.querySelector(`.app`);
   }
 
@@ -21,14 +21,14 @@ export default class GameService {
   }
 
   init(cb) {
-    this._gameModel.initState();
+    this._model.initState();
     this.initTimer();
     this.start();
     this._resultCallBack = cb;
   }
 
   updateHeader() {
-    this._headerData.mistakes = this._gameModel.currentState.mistakes;
+    this._headerData.mistakes = this._model.currentState.mistakes;
     if (this._view) {
       this._view.updateHeader(this._headerData);
     }
@@ -36,7 +36,7 @@ export default class GameService {
 
   _setNextLevel() {
     this.updateHeader();
-    const level = Levels[this._gameModel.currentState.level - 1];
+    const level = this._model.currentLevelInfo;
 
     if (level.type === LevelType.ARTIST) {
       this._setLevelScreen(new LevelArtistView(level.info, this._headerData));
@@ -53,7 +53,7 @@ export default class GameService {
   start() {
     this._headerData = {
       timer: this._timer,
-      mistakes: this._gameModel.currentState.mistakes
+      mistakes: this._model.currentState.mistakes
     };
     this._setNextLevel();
     this.setInterval();
@@ -61,7 +61,7 @@ export default class GameService {
 
   stop() {
     this.pause();
-    this._resultCallBack(this._gameModel, this._userData);
+    this._resultCallBack(this._model, this._userData);
   }
 
   pause() {
@@ -69,8 +69,8 @@ export default class GameService {
   }
 
   resume() {
-    if (this._gameModel.canContinue()) {
-      this._gameModel.nextLevel();
+    if (this._model.canContinue()) {
+      this._model.nextLevel();
       this.setInterval();
       this._setNextLevel();
       setScreen(this._app, this._view.element);
@@ -83,7 +83,7 @@ export default class GameService {
   setInterval() {
     this._interval = setInterval(() => {
       if (!this._timer.tick()) {
-        this._gameModel.time = this._timer.getCurrentTime();
+        this._model.time = this._timer.getCurrentTime();
         this.stop();
       }
       this.updateHeader();
@@ -94,11 +94,11 @@ export default class GameService {
     this.pause();
 
     const curtime = this._timer.getCurrentTime();
-    this._userData.push({answered, time: this._gameModel.currentState.time - curtime});
-    this._gameModel.time = curtime;
+    this._userData.push({answered, time: this._model.currentState.time - curtime});
+    this._model.time = curtime;
 
     if (!answered) {
-      this._gameModel.increaseMistakes();
+      this._model.increaseMistakes();
     }
 
     this.resume();
