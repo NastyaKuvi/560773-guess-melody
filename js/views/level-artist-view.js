@@ -14,7 +14,7 @@ export default class LevelArtistView extends LevelView {
                 <h2 class="title main-title">${this._data.title}</h2>
                 ${getPlayerTemplate(this._data.audio)}
                 <form class="main-list">
-                ${this._data.answers.map((item, index) => getArtistAnswerTemplate(item, index + 1)).join(``)}
+                ${this._data.answers.map((item, index) => getArtistAnswerTemplate(item, index)).join(``)}
                 </form>
               </div>`;
   }

@@ -1,7 +1,8 @@
 import {InitialGameState, GameData} from "../data/game-data";
 
 export default class GameModel {
-  constructor() {
+  constructor(levelsData) {
+    this._levelsData = levelsData;
     this.initState();
     // Empty
   }
@@ -12,6 +13,10 @@ export default class GameModel {
 
   get currentState() {
     return this._currentState;
+  }
+
+  get currentLevelInfo() {
+    return this._levelsData[this._currentState.level - 1];
   }
 
   set time(newTime) {
