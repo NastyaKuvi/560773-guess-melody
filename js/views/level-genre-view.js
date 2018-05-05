@@ -58,9 +58,9 @@ export default class LevelGenreView extends LevelView {
     });
 
     const answerElements = this.element.querySelectorAll(`.genre-answer`);
-    for (let i = 0; i < this._data.answers.length; i++) {
-      this.addAudio(answerElements[i], new AudioPlayerView(this._data.answers[i].audio).element);
-    }
+    this._data.answers.forEach((item, index) => {
+      this.addAudio(answerElements[index], new AudioPlayerView(item.audio).element);
+    });
   }
 
   onAnswerBtnClick() {
