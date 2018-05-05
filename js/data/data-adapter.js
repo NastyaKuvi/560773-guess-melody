@@ -6,14 +6,6 @@ const adaptServerData = (data) => {
     result.push({type: level.type, info: prepareInfo(level)});
   }
 
-  const mapres = (res) => {
-    if (typeof res.info.right !== `undefined`) {
-      return res.info.right;
-    }
-
-    return res.info.answers.map((ans) => ans.right);
-  };
-  console.log(result.map((res) => mapres(res)));
   return result;
 };
 
@@ -27,7 +19,7 @@ const prepareInfo = (level) => {
 const prepareArtistInfo = (level) => {
   return {
     title: level.question,
-    audio: `<audio src="${level.src}" autoplay></audio>`,
+    audio: level.src,
     right: level.answers.findIndex((answer) => answer.isCorrect),
     answers: level.answers,
   };
@@ -44,7 +36,7 @@ const prepareGenreAnswers = (answers, genre) => {
   const result = [];
   for (const answer of answers) {
     result.push({
-      audio: `<audio src="${answer.src}"></audio>`,
+      audio: answer.src,
       right: answer.genre === genre
     });
   }

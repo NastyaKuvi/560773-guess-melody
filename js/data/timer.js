@@ -36,4 +36,8 @@ export default class Timer {
     return this._time;
   }
 
+  isTimerOnFinish() {
+    return this._time <= 30;
+  }
+
 }
