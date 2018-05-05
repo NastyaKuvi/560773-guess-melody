@@ -16,18 +16,18 @@ export default class GameService {
     return this._view.element;
   }
 
-  initTimer() {
+  _initTimer() {
     this._timer = new Timer(GameData.allTime);
   }
 
   init(cb) {
     this._model.initState();
-    this.initTimer();
+    this._initTimer();
     this.start();
     this._resultCallBack = cb;
   }
 
-  updateHeader() {
+  _updateHeader() {
     this._headerData.mistakes = this._model.currentState.mistakes;
     if (this._view) {
       this._view.updateHeader(this._headerData);
@@ -35,7 +35,7 @@ export default class GameService {
   }
 
   _setNextLevel() {
-    this.updateHeader();
+    this._updateHeader();
     const level = this._model.currentLevelInfo;
 
     if (level.type === LevelType.ARTIST) {
@@ -46,7 +46,7 @@ export default class GameService {
   }
 
   _setLevelScreen(levelView) {
-    levelView.onAnswerBtnClick = (answered) => this.checkAnswer(answered);
+    levelView.onAnswerBtnClick = (answered) => this._checkAnswer(answered);
     this._view = levelView;
   }
 
@@ -56,7 +56,7 @@ export default class GameService {
       mistakes: this._model.currentState.mistakes
     };
     this._setNextLevel();
-    this.setInterval();
+    this._setInterval();
   }
 
   stop() {
@@ -71,7 +71,7 @@ export default class GameService {
   resume() {
     if (this._model.canContinue()) {
       this._model.nextLevel();
-      this.setInterval();
+      this._setInterval();
       this._setNextLevel();
       setScreen(this._app, this._view.element);
     } else {
@@ -80,17 +80,17 @@ export default class GameService {
 
   }
 
-  setInterval() {
+  _setInterval() {
     this._interval = setInterval(() => {
       if (!this._timer.tick()) {
         this._model.time = this._timer.getCurrentTime();
         this.stop();
       }
-      this.updateHeader();
+      this._updateHeader();
     }, 1000);
   }
 
-  checkAnswer(answered) {
+  _checkAnswer(answered) {
     this.pause();
 
     const curtime = this._timer.getCurrentTime();

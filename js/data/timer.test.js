@@ -7,7 +7,6 @@ describe(`check work of timer`, () => {
     assert.equal(zeroTimer.tick(), false);
 
     const timer = new Timer(30);
-    timer.start();
     assert.equal(timer.tick(), 29);
   });
 

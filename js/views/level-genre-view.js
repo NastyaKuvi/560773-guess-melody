@@ -1,5 +1,6 @@
 import getGenreAnswerTemplate from '../templates/genre-answer.js';
 import LevelView from './level-view.js';
+import AudioPlayerView from './player-view.js';
 
 export default class LevelGenreView extends LevelView {
 
@@ -30,11 +31,11 @@ export default class LevelGenreView extends LevelView {
     return answered.every((answer) => answer.right);
   }
 
-  isSomeAnswerChecked(checkboxes) {
+  _isSomeAnswerChecked(checkboxes) {
     return checkboxes.some((element) => element.checked);
   }
 
-  resetScreen(checkboxes, answerBtn) {
+  _resetScreen(checkboxes, answerBtn) {
     checkboxes.forEach((element) => {
       element.checked = false;
     });
@@ -47,14 +48,19 @@ export default class LevelGenreView extends LevelView {
     answerBtn.addEventListener(`click`, (evt) => {
       evt.preventDefault();
       this.onAnswerBtnClick(this._isAnswered(answerCheckboxes));
-      this.resetScreen(answerCheckboxes, answerBtn);
+      this._resetScreen(answerCheckboxes, answerBtn);
     });
 
     answerCheckboxes.forEach((checkbox) => {
       checkbox.addEventListener(`click`, () => {
-        answerBtn.disabled = !(checkbox.checked || this.isSomeAnswerChecked(answerCheckboxes));
+        answerBtn.disabled = !(checkbox.checked || this._isSomeAnswerChecked(answerCheckboxes));
       });
     });
+
+    const answerElements = this.element.querySelectorAll(`.genre-answer`);
+    for (let i = 0; i < this._data.answers.length; i++) {
+      this.addAudio(answerElements[i], new AudioPlayerView(this._data.answers[i].audio).element);
+    }
   }
 
   onAnswerBtnClick() {

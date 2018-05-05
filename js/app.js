@@ -3,33 +3,27 @@ import GameService from "./services/game-service";
 import WelcomeService from "./services/welcome-service";
 import {setScreen} from "./utils";
 import ResultService from "./services/result-service";
-import adaptServerData from "./data/data-adapter";
+import Loader from "./loader";
+import ErrorView from "./views/error-view";
+import StartView from "./views/start-view";
 
 const app = document.querySelector(`.app`);
 let levelsData;
 
-const checkStatus = (response) => {
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-  return response;
-};
-
 export default class Application {
 
   static start() {
-    window.fetch(`https://es.dump.academy/guess-melody/questions`)
-        .then(checkStatus)
-        .then((response) => response.json())
-        .then((data) => adaptServerData(data))
-        .then(this.showWelcome.bind(this))
-        .catch((error) => console.log(error));
+    const startView = new StartView();
+    setScreen(app, startView.element);
+    Loader.loadData()
+        .then(Application.showWelcome)
+        .catch(Application.showError);
   }
 
   static showWelcome(data) {
     levelsData = data;
     const welcomeService = new WelcomeService();
-    welcomeService.init(this.showGame.bind(this));
+    welcomeService.init(Application.showGame);
 
     setScreen(app, welcomeService.element);
   }
@@ -37,14 +31,19 @@ export default class Application {
   static showGame() {
     const model = new GameModel(levelsData);
     const gameService = new GameService(model);
-    gameService.init(this.showResult.bind(this));
+    gameService.init(Application.showResult);
     setScreen(app, gameService.element);
   }
 
   static showResult(model, userData) {
     const resultService = new ResultService(model, userData);
-    resultService.init(this.showGame.bind(this));
+    resultService.init(Application.showGame, Application.showError);
 
     setScreen(app, resultService.element);
+  }
+
+  static showError(error) {
+    const errorView = new ErrorView(error);
+    setScreen(app, errorView.element);
   }
 }

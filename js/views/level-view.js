@@ -22,4 +22,9 @@ export default class LevelView extends AbstractView {
     this._levelContainerElement.replaceChild(header.element, this._headerView.element);
     this._headerView = header;
   }
+
+  addAudio(parent, audioElement) {
+    const oldAudioElem = parent.querySelector(`.player-wrapper-template`);
+    parent.replaceChild(audioElement, oldAudioElem);
+  }
 }

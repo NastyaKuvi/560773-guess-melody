@@ -3,6 +3,7 @@ import {FailedData, GameData} from "../data/game-data";
 import SuccessGameView from "../views/success-game-view";
 import {getPlayerScore, displayPlayerScore} from "../data/game-result.js";
 import {getMinutes, getSeconds} from "../utils";
+import Loader from "../loader";
 
 export default class ResultService {
   constructor(model, userData) {
@@ -10,12 +11,15 @@ export default class ResultService {
     this._userData = userData;
   }
 
-  init(cb) {
-    this._view = this.setResultView();
+  init(cb, errorCb) {
+    this._errorCb = errorCb;
+
+    this._view = this._setResultView();
     this._view.onReplayBtnClick = () => cb();
+
   }
 
-  setResultView() {
+  _setResultView() {
     if (this._model.isGameOver()) {
       return new FailedGameView(FailedData.attemptsEnded);
     }
@@ -24,23 +28,40 @@ export default class ResultService {
       return new FailedGameView(FailedData.timeOver);
     }
 
-    return new SuccessGameView(this._prepareResultData());
+    return this._prepareResultData();
   }
 
   _prepareResultData() {
-    const lifes = GameData.maxLifes - this._model.currentState.mistakes;
-    const time = GameData.allTime - this._model.currentState.time;
-    const score = getPlayerScore(this._userData, lifes);
     const result = {
-      minutes: getMinutes(time),
-      seconds: getSeconds(time),
+      lifes: GameData.maxLifes - this._model.currentState.mistakes,
+      time: GameData.allTime - this._model.currentState.time,
+      answers: this._userData
+    };
+
+    const successView = new SuccessGameView();
+    Loader.saveResult(result)
+        .then(Loader.getStatistic)
+        .then((data) => this._calculatePlayerStatistic(data))
+        .then((data) => successView.showResults(data))
+        .catch(this._errorCb);
+
+    return successView;
+  }
+
+  _calculatePlayerStatistic(data) {
+    const playerData = data.pop();
+    const otherPlayers = data.map((player) => getPlayerScore(player.answers, player.lifes).common);
+
+    const score = getPlayerScore(playerData.answers, playerData.lifes);
+    return {
+      minutes: getMinutes(playerData.time),
+      seconds: getSeconds(playerData.time),
       score: score.common,
       fastQ: score.fast,
-      mistakes: this._model.currentState.mistakes,
-      toDisplay: displayPlayerScore([2, 4, 6, 8, 10, 12],
-          {lifes, points: score.common})
+      mistakes: GameData.maxLifes - playerData.lifes,
+      toDisplay: displayPlayerScore(otherPlayers,
+          {lifes: playerData.lifes, points: score.common})
     };
-    return result;
   }
 
   get element() {
