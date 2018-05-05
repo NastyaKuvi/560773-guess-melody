@@ -11,9 +11,12 @@ export default class ResultService {
     this._userData = userData;
   }
 
-  init(cb) {
+  init(cb, errorCb) {
+    this._errorCb = errorCb;
+
     this._view = this.setResultView();
     this._view.onReplayBtnClick = () => cb();
+
   }
 
   setResultView() {
@@ -40,7 +43,7 @@ export default class ResultService {
         .then(Loader.getStatistic)
         .then((data) => this._calculatePlayerStatistic(data))
         .then((data) => successView.showResults(data))
-        .catch(() => console.log(`error`));
+        .catch(this._errorCb);
 
     return successView;
   }

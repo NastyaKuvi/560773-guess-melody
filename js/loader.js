@@ -30,7 +30,8 @@ export default class Loader {
       },
       method: `POST`
     };
-    return fetch(`${SERVER_URL}stats/${APP_ID}`, requestParams).then(checkStatus);
+    return fetch(`${SERVER_URL}stats/${APP_ID}`, requestParams)
+        .then(checkStatus);
 
   }
 

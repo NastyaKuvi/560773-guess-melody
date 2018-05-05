@@ -4,6 +4,8 @@ import WelcomeService from "./services/welcome-service";
 import {setScreen} from "./utils";
 import ResultService from "./services/result-service";
 import Loader from "./loader";
+import ErrorView from "./views/error-view";
+import StartView from "./views/start-view";
 
 const app = document.querySelector(`.app`);
 let levelsData;
@@ -11,9 +13,11 @@ let levelsData;
 export default class Application {
 
   static start() {
+    const startView = new StartView();
+    setScreen(app, startView.element);
     Loader.loadData()
         .then(Application.showWelcome)
-        .catch((error) => console.log(error));
+        .catch(Application.showError);
   }
 
   static showWelcome(data) {
@@ -33,8 +37,13 @@ export default class Application {
 
   static showResult(model, userData) {
     const resultService = new ResultService(model, userData);
-    resultService.init(Application.showGame);
+    resultService.init(Application.showGame, Application.showError);
 
     setScreen(app, resultService.element);
+  }
+
+  static showError(error) {
+    const errorView = new ErrorView(error);
+    setScreen(app, errorView.element);
   }
 }
