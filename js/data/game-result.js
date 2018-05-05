@@ -26,7 +26,7 @@ const getPlayerScore = (playerAnswers, remainingLifes) => {
     throw new Error(`Remaining lifes should be a value from 0 to 3`);
   }
 
-  let result = {
+  const result = {
     normal: 0,
     fast: 0,
     wrong: 0,

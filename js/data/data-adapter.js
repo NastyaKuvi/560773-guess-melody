@@ -1,7 +1,7 @@
 import {LevelType} from "./game-data";
 
 const adaptServerData = (data) => {
-  let result = [];
+  const result = [];
   for (const level of data) {
     result.push({type: level.type, info: prepareInfo(level)});
   }

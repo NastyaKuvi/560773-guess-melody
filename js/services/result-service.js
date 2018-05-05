@@ -14,12 +14,12 @@ export default class ResultService {
   init(cb, errorCb) {
     this._errorCb = errorCb;
 
-    this._view = this.setResultView();
+    this._view = this._setResultView();
     this._view.onReplayBtnClick = () => cb();
 
   }
 
-  setResultView() {
+  _setResultView() {
     if (this._model.isGameOver()) {
       return new FailedGameView(FailedData.attemptsEnded);
     }

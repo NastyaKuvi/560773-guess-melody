@@ -4,7 +4,6 @@ export default class GameModel {
   constructor(levelsData) {
     this._levelsData = levelsData;
     this.initState();
-    // Empty
   }
 
   initState() {
