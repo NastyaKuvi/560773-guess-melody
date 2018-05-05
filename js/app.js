@@ -3,25 +3,15 @@ import GameService from "./services/game-service";
 import WelcomeService from "./services/welcome-service";
 import {setScreen} from "./utils";
 import ResultService from "./services/result-service";
-import adaptServerData from "./data/data-adapter";
+import Loader from "./loader";
 
 const app = document.querySelector(`.app`);
 let levelsData;
 
-const checkStatus = (response) => {
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-  return response;
-};
-
 export default class Application {
 
   static start() {
-    window.fetch(`https://es.dump.academy/guess-melody/questions`)
-        .then(checkStatus)
-        .then((response) => response.json())
-        .then((data) => adaptServerData(data))
+    Loader.loadData()
         .then(Application.showWelcome)
         .catch((error) => console.log(error));
   }

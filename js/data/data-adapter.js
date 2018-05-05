@@ -5,6 +5,15 @@ const adaptServerData = (data) => {
   for (const level of data) {
     result.push({type: level.type, info: prepareInfo(level)});
   }
+
+  const mapres = (res) => {
+    if (typeof res.info.right !== `undefined`) {
+      return res.info.right;
+    }
+
+    return res.info.answers.map((ans) => ans.right);
+  };
+  console.log(result.map((res) => mapres(res)));
   return result;
 };
 
