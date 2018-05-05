@@ -22,14 +22,14 @@ export default class Application {
         .then(checkStatus)
         .then((response) => response.json())
         .then((data) => adaptServerData(data))
-        .then(this.showWelcome.bind(this))
+        .then(Application.showWelcome)
         .catch((error) => console.log(error));
   }
 
   static showWelcome(data) {
     levelsData = data;
     const welcomeService = new WelcomeService();
-    welcomeService.init(this.showGame.bind(this));
+    welcomeService.init(Application.showGame);
 
     setScreen(app, welcomeService.element);
   }
@@ -37,13 +37,13 @@ export default class Application {
   static showGame() {
     const model = new GameModel(levelsData);
     const gameService = new GameService(model);
-    gameService.init(this.showResult.bind(this));
+    gameService.init(Application.showResult);
     setScreen(app, gameService.element);
   }
 
   static showResult(model, userData) {
     const resultService = new ResultService(model, userData);
-    resultService.init(this.showGame.bind(this));
+    resultService.init(Application.showGame);
 
     setScreen(app, resultService.element);
   }
