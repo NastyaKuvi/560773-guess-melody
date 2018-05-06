@@ -20,8 +20,12 @@ export default class LevelGenreView extends LevelView {
   }
 
   _isAnswered(checkboxes) {
-    const answered = checkboxes.filter((item) => item.checked)
-        .map((item) => this._data.answers[item.value.trim() - 1]);
+    const answered = checkboxes.reduce((prev, curr, index) => {
+      if (curr.checked) {
+        prev.push(this._data.answers[index]);
+      }
+      return prev;
+    }, []);
     const rightAnswers = this._data.answers.filter((answer) => answer.right);
 
     if (answered.length !== rightAnswers.length) {
