@@ -1,6 +1,6 @@
 import getLogoTemplate from '../templates/logo.js';
-import {getCorrectNounForm} from '../utils.js';
 import ResultView from "./result-view";
+import {getCorrectNounForm, DeclensionWords} from '../data/noun-declension.js';
 
 export default class SuccessGameView extends ResultView {
   constructor() {
@@ -21,9 +21,9 @@ export default class SuccessGameView extends ResultView {
     const mainElement = this.element.querySelector(`.result-container`);
     mainElement.innerHTML =
             `<h2 class="title">Вы настоящий меломан!</h2>
-            <div class="main-stat">За&nbsp; ${getCorrectNounForm(`минуты`, data.minutes)} и ${getCorrectNounForm(`секунд`, data.seconds)}
-              <br>вы&nbsp;набрали ${data.score} баллов (${data.fastQ} быстрых)
-              <br>совершив ${data.mistakes} ошибки</div>
+            <div class="main-stat">За&nbsp; ${getCorrectNounForm(DeclensionWords.MINUTES, data.minutes)} и ${getCorrectNounForm(DeclensionWords.SECONDS, data.seconds)}
+              <br>вы&nbsp;набрали ${getCorrectNounForm(DeclensionWords.SCORE, data.score)} (${data.fastQ} быстрых)
+              <br>совершив ${getCorrectNounForm(DeclensionWords.MISTAKE, data.mistakes)}</div>
             <span class="main-comparison">${data.toDisplay}</span>
           `;
   }
