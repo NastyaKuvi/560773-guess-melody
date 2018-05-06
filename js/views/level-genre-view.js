@@ -19,6 +19,27 @@ export default class LevelGenreView extends LevelView {
               </div>`;
   }
 
+  bind() {
+    const answerCheckboxes = [...this.element.querySelectorAll(`input[type=checkbox]`)];
+    const answerBtn = this.element.querySelector(`.genre-answer-send`);
+    answerBtn.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      this.onAnswerBtnClick(this._isAnswered(answerCheckboxes));
+      this._resetScreen(answerCheckboxes, answerBtn);
+    });
+
+    answerCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener(`click`, () => {
+        answerBtn.disabled = !(checkbox.checked || this._isSomeAnswerChecked(answerCheckboxes));
+      });
+    });
+
+    const answerElements = this.element.querySelectorAll(`.genre-answer`);
+    this._data.answers.forEach((item, index) => {
+      this.addAudio(answerElements[index], new AudioPlayerView(item.audio).element);
+    });
+  }
+
   _isAnswered(checkboxes) {
     const answered = checkboxes.reduce((prev, curr, index) => {
       if (curr.checked) {
@@ -44,27 +65,6 @@ export default class LevelGenreView extends LevelView {
       element.checked = false;
     });
     answerBtn.disabled = true;
-  }
-
-  bind() {
-    const answerCheckboxes = [...this.element.querySelectorAll(`input[type=checkbox]`)];
-    const answerBtn = this.element.querySelector(`.genre-answer-send`);
-    answerBtn.addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      this.onAnswerBtnClick(this._isAnswered(answerCheckboxes));
-      this._resetScreen(answerCheckboxes, answerBtn);
-    });
-
-    answerCheckboxes.forEach((checkbox) => {
-      checkbox.addEventListener(`click`, () => {
-        answerBtn.disabled = !(checkbox.checked || this._isSomeAnswerChecked(answerCheckboxes));
-      });
-    });
-
-    const answerElements = this.element.querySelectorAll(`.genre-answer`);
-    this._data.answers.forEach((item, index) => {
-      this.addAudio(answerElements[index], new AudioPlayerView(item.audio).element);
-    });
   }
 
   onAnswerBtnClick() {

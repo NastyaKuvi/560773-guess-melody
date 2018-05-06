@@ -11,6 +11,10 @@ export default class ResultService {
     this._userData = userData;
   }
 
+  get element() {
+    return this._view.element;
+  }
+
   init(cb, errorCb) {
     this._errorCb = errorCb;
 
@@ -62,9 +66,5 @@ export default class ResultService {
       toDisplay: displayPlayerScore(otherPlayers,
           {lifes: playerData.lifes, points: score.common})
     };
-  }
-
-  get element() {
-    return this._view.element;
   }
 }

@@ -10,12 +10,12 @@ export default class WelcomeService {
     };
   }
 
+  get element() {
+    return this._view.element;
+  }
+
   init(cb) {
     this._view = new WelcomeView(this._welcome);
     this._view.onStartGameBtnClick = () => cb();
-  }
-
-  get element() {
-    return this._view.element;
   }
 }
