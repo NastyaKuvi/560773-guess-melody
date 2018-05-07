@@ -32,25 +32,29 @@ export default class ResultService {
       return new FailedGameView(FailedData.timeOver);
     }
 
-    return this._prepareResultData();
+    return this._showResultView();
   }
 
-  async _prepareResultData() {
+  _showResultView() {
+    const successView = new SuccessGameView();
+    this._prepareResultData(successView);
+
+    return successView;
+  }
+
+  async _prepareResultData(view) {
     const result = {
       lifes: GameData.maxLifes - this._model.currentState.mistakes,
       time: GameData.allTime - this._model.currentState.time,
       answers: this._userData
     };
 
-    const successView = new SuccessGameView();
     try {
       await Loader.saveResult(result);
-      successView.showResults(this._calculatePlayerStatistic(await Loader.getStatistic()));
+      view.showResults(this._calculatePlayerStatistic(await Loader.getStatistic()));
     } catch (e) {
       this.errorCb(e);
     }
-
-    return successView;
   }
 
   _calculatePlayerStatistic(data) {
