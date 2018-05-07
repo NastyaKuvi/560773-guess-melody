@@ -12,12 +12,14 @@ let levelsData;
 
 export default class Application {
 
-  static start() {
+  static async start() {
     const startView = new StartView();
     setScreen(app, startView.element);
-    Loader.loadData()
-        .then(Application.showWelcome)
-        .catch(Application.showError);
+    try {
+      Application.showWelcome(await Loader.loadData());
+    } catch (e) {
+      Application.showError(e);
+    }
   }
 
   static showWelcome(data) {

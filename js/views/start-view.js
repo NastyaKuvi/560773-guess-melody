@@ -6,9 +6,9 @@ export default class StartView extends AbstractView {
   }
 
   get template() {
-    return `<section class="main">
-              <h2 class="title">Игра загружается...</h2>
-              <span class="main-comparison">Пожалуйста подождите</span>
+    return `<section class="main main--welcome">
+              <h2 class="title main-title">Игра загружается...</h2>
+              <span class="text main-text">Пожалуйста подождите</span>
             </section>`;
   }
 }

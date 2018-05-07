@@ -35,7 +35,7 @@ export default class ResultService {
     return this._prepareResultData();
   }
 
-  _prepareResultData() {
+  async _prepareResultData() {
     const result = {
       lifes: GameData.maxLifes - this._model.currentState.mistakes,
       time: GameData.allTime - this._model.currentState.time,
@@ -43,11 +43,12 @@ export default class ResultService {
     };
 
     const successView = new SuccessGameView();
-    Loader.saveResult(result)
-        .then(Loader.getStatistic)
-        .then((data) => this._calculatePlayerStatistic(data))
-        .then((data) => successView.showResults(data))
-        .catch(this._errorCb);
+    try {
+      await Loader.saveResult(result);
+      successView.showResults(this._calculatePlayerStatistic(await Loader.getStatistic()));
+    } catch (e) {
+      this.errorCb(e);
+    }
 
     return successView;
   }
