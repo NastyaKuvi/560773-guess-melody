@@ -6,10 +6,6 @@ export default class GameModel {
     this.initState();
   }
 
-  initState() {
-    this._currentState = Object.assign({}, InitialGameState);
-  }
-
   get currentState() {
     return this._currentState;
   }
@@ -20,6 +16,10 @@ export default class GameModel {
 
   set time(newTime) {
     this._currentState.time = newTime;
+  }
+
+  initState() {
+    this._currentState = Object.assign({}, InitialGameState);
   }
 
   nextLevel() {

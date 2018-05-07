@@ -16,38 +16,11 @@ export default class GameService {
     return this._view.element;
   }
 
-  _initTimer() {
-    this._timer = new Timer(GameData.allTime);
-  }
-
   init(cb) {
     this._model.initState();
     this._initTimer();
     this.start();
     this._resultCallBack = cb;
-  }
-
-  _updateHeader() {
-    this._headerData.mistakes = this._model.currentState.mistakes;
-    if (this._view) {
-      this._view.updateHeader(this._headerData);
-    }
-  }
-
-  _setNextLevel() {
-    this._updateHeader();
-    const level = this._model.currentLevelInfo;
-
-    if (level.type === LevelType.ARTIST) {
-      this._setLevelScreen(new LevelArtistView(level.info, this._headerData));
-    } else if (level.type === LevelType.GENRE) {
-      this._setLevelScreen(new LevelGenreView(level.info, this._headerData));
-    }
-  }
-
-  _setLevelScreen(levelView) {
-    levelView.onAnswerBtnClick = (answered) => this._checkAnswer(answered);
-    this._view = levelView;
   }
 
   start() {
@@ -77,13 +50,39 @@ export default class GameService {
     } else {
       this.stop();
     }
+  }
 
+  _initTimer() {
+    this._timer = new Timer(GameData.allTime);
+  }
+
+  _updateHeader() {
+    this._headerData.mistakes = this._model.currentState.mistakes;
+    if (this._view) {
+      this._view.updateHeader(this._headerData);
+    }
+  }
+
+  _setNextLevel() {
+    this._updateHeader();
+    const level = this._model.currentLevelInfo;
+
+    if (level.type === LevelType.ARTIST) {
+      this._setLevelScreen(new LevelArtistView(level.info, this._headerData));
+    } else if (level.type === LevelType.GENRE) {
+      this._setLevelScreen(new LevelGenreView(level.info, this._headerData));
+    }
+  }
+
+  _setLevelScreen(levelView) {
+    levelView.onAnswerBtnClick = (answered) => this._checkAnswer(answered);
+    this._view = levelView;
   }
 
   _setInterval() {
     this._interval = setInterval(() => {
       if (!this._timer.tick()) {
-        this._model.time = this._timer.getCurrentTime();
+        this._model.time = this._timer.currentTime;
         this.stop();
       }
       this._updateHeader();
@@ -93,7 +92,7 @@ export default class GameService {
   _checkAnswer(answered) {
     this.pause();
 
-    const curtime = this._timer.getCurrentTime();
+    const curtime = this._timer.currentTime;
     this._userData.push({answered, time: this._model.currentState.time - curtime});
     this._model.time = curtime;
 

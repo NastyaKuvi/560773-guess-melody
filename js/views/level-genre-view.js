@@ -19,29 +19,6 @@ export default class LevelGenreView extends LevelView {
               </div>`;
   }
 
-  _isAnswered(checkboxes) {
-    const answered = checkboxes.filter((item) => item.checked)
-        .map((item) => this._data.answers[item.value.trim() - 1]);
-    const rightAnswers = this._data.answers.filter((answer) => answer.right);
-
-    if (answered.length !== rightAnswers.length) {
-      return false;
-    }
-
-    return answered.every((answer) => answer.right);
-  }
-
-  _isSomeAnswerChecked(checkboxes) {
-    return checkboxes.some((element) => element.checked);
-  }
-
-  _resetScreen(checkboxes, answerBtn) {
-    checkboxes.forEach((element) => {
-      element.checked = false;
-    });
-    answerBtn.disabled = true;
-  }
-
   bind() {
     const answerCheckboxes = [...this.element.querySelectorAll(`input[type=checkbox]`)];
     const answerBtn = this.element.querySelector(`.genre-answer-send`);
@@ -61,6 +38,33 @@ export default class LevelGenreView extends LevelView {
     this._data.answers.forEach((item, index) => {
       this.addAudio(answerElements[index], new AudioPlayerView(item.audio).element);
     });
+  }
+
+  _isAnswered(checkboxes) {
+    const answered = checkboxes.reduce((prev, curr, index) => {
+      if (curr.checked) {
+        prev.push(this._data.answers[index]);
+      }
+      return prev;
+    }, []);
+    const rightAnswers = this._data.answers.filter((answer) => answer.right);
+
+    if (answered.length !== rightAnswers.length) {
+      return false;
+    }
+
+    return answered.every((answer) => answer.right);
+  }
+
+  _isSomeAnswerChecked(checkboxes) {
+    return checkboxes.some((element) => element.checked);
+  }
+
+  _resetScreen(checkboxes, answerBtn) {
+    checkboxes.forEach((element) => {
+      element.checked = false;
+    });
+    answerBtn.disabled = true;
   }
 
   onAnswerBtnClick() {

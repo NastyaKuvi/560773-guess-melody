@@ -5,6 +5,18 @@ export default class Timer {
     this.init(time);
   }
 
+  get minutes() {
+    return getMinutes(this._time);
+  }
+
+  get seconds() {
+    return getSeconds(this._time);
+  }
+
+  get currentTime() {
+    return this._time;
+  }
+
   init(newTime) {
     if (typeof newTime !== `number`) {
       throw new Error(`time should be type of number`);
@@ -22,18 +34,6 @@ export default class Timer {
       return false;
     }
     return --this._time;
-  }
-
-  getMinutes() {
-    return getMinutes(this._time);
-  }
-
-  getSeconds() {
-    return getSeconds(this._time);
-  }
-
-  getCurrentTime() {
-    return this._time;
   }
 
   isTimerOnFinish() {

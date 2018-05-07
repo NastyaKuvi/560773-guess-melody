@@ -42,7 +42,10 @@ export default class AudioPlayerView extends AbstractView {
     btn.classList.toggle(`player-control--pause`);
   }
   _stopAllAudios(current) {
-    [...document.querySelectorAll(`audio`)].forEach((item) => {
+    if (!this._audios) {
+      this._audios = [...document.querySelectorAll(`audio`)];
+    }
+    this._audios.forEach((item) => {
       if (!item.paused && item !== current) {
         item.pause();
         item.currentTime = 0;

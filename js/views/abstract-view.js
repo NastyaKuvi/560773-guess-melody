@@ -22,6 +22,18 @@ export default class AbstractView {
   }
 
   /**
+   * Returns Dom-Element
+   */
+  get element() {
+    if (!this._domElement) {
+      this._domElement = this.render();
+      this.bind();
+    }
+
+    return this._domElement;
+  }
+
+  /**
    * Creates DOM-element from template string
    * @return {Element} created element
    */
@@ -34,17 +46,5 @@ export default class AbstractView {
    */
   bind() {
     // Empty
-  }
-
-  /**
-   * Returns Dom-Element
-   */
-  get element() {
-    if (!this._domElement) {
-      this._domElement = this.render();
-      this.bind();
-    }
-
-    return this._domElement;
   }
 }

@@ -30,11 +30,6 @@ const shuffleArray = (array) => {
   return resArray;
 };
 
-const getCorrectNounForm = (noun, number) => {
-  // TODO: implement this
-  return `${number} ${noun}`;
-};
-
 const pad = (digit) => {
   return digit <= 9 ? `0` + digit : digit;
 };
@@ -51,7 +46,6 @@ export {
   setScreen,
   createElement,
   getRandomItem,
-  getCorrectNounForm,
   getSeconds,
   getMinutes,
   shuffleArray

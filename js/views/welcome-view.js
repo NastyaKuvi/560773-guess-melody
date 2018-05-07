@@ -1,5 +1,5 @@
 import AbstractView from "./abstract-view";
-import {getCorrectNounForm} from '../utils.js';
+import {getCorrectNounForm, DeclensionWords} from '../data/noun-declension.js';
 import getLogoTemplate from '../templates/logo.js';
 
 /**
@@ -18,8 +18,8 @@ export default class WelcomeView extends AbstractView {
                             <button class="main-play">Начать игру</button>
                             <h2 class="title main-title">Правила игры</h2>
                             <p class="text main-text">
-                              Правила просты&nbsp;— за&nbsp; ${getCorrectNounForm(`минута`, this._welcomeData.gameTime)} ответить на все вопросы.<br>
-                              Ошибиться можно ${getCorrectNounForm(`раз`, this._welcomeData.maxMistakesCount)}.<br>
+                              Правила просты&nbsp;— за&nbsp; ${getCorrectNounForm(DeclensionWords.MINUTES, this._welcomeData.gameTime)} ответить на все вопросы.<br>
+                              Ошибиться можно ${getCorrectNounForm(DeclensionWords.COUNT, this._welcomeData.maxMistakesCount)}.<br>
                               Удачи!
                             </p>
                           </section>`;
